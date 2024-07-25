@@ -1,0 +1,6 @@
+.DS_Store
+.env
+.env.backup
+/.idea
+/.vscode
+/.zed

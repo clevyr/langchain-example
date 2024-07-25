@@ -1,0 +1,4 @@
+langchain-core==0.2.23
+langchain-community==0.2.10
+python-dotenv==1.0.1
+pydantic==2.8.2
