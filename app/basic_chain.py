@@ -9,7 +9,7 @@ import os
 model = os.getenv('OLLAMA_MODEL','mistral')
 base_url = os.getenv('OLLAMA_BASE_URL', 'http://localhost:11434/')
 
-def main():
+def basic_chain():
     llm = Ollama(
         model=model,
         temperature=0,
