@@ -2,18 +2,13 @@ from langchain_community.llms import Ollama
 from langchain_core.messages import AIMessage
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import CommaSeparatedListOutputParser
-import os
-
-# If running inside a docker container,
-# this default url will not work
-model = os.getenv('OLLAMA_MODEL','mistral')
-base_url = os.getenv('OLLAMA_BASE_URL', 'http://localhost:11434/')
+from . import config
 
 def basic_chain():
     llm = Ollama(
-        model=model,
+        model=config.ollama_model,
         temperature=0,
-        base_url=base_url,
+        base_url=config.ollama_base_url,
         # other params...
     )
 
