@@ -6,9 +6,9 @@ from langchain.agents import AgentExecutor, create_tool_calling_agent
 from os import environ
 from typing import Sequence
 
-openai_model = environ.get('OPENAI_MODEL', '')
-openai_base_url = environ.get('OPENAI_BASE_URL', '')
-openai_api_key = convert_to_secret_str(environ.get('OPENAI_API_KEY', ''))
+openai_model = environ.get("OPENAI_MODEL", "")
+openai_base_url = environ.get("OPENAI_BASE_URL", "")
+openai_api_key = convert_to_secret_str(environ.get("OPENAI_API_KEY", ""))
 
 
 # define tool that the llm can use
@@ -50,6 +50,7 @@ def exponentiate(base: int, exponent: int) -> int:
 
 tools = [multiply, add, exponentiate]
 
+
 def basic_agent():
     # We pull a promt from the langchain hub
     prompt = hub.pull("hwchase17/openai-tools-agent")
@@ -72,8 +73,10 @@ def basic_agent():
     # This actually calls the tool and continues the agentic loop
     agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
 
-    print(agent_executor.invoke(
-        {
-            "input": "Take three to the fifth power and multiply that by the sum of twelve and three, then square the whole result"
-        }
-    ))
+    print(
+        agent_executor.invoke(
+            {
+                "input": "Take three to the fifth power and multiply that by the sum of twelve and three, then square the whole result"
+            }
+        )
+    )

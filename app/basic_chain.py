@@ -4,8 +4,9 @@ from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import CommaSeparatedListOutputParser
 from os import environ
 
-ollama_base_url: str = environ.get('OLLAMA_BASE_URL', '')
-ollama_model: str = environ.get('OLLAMA_MODEL', '')
+ollama_base_url: str = environ.get("OLLAMA_BASE_URL", "")
+ollama_model: str = environ.get("OLLAMA_MODEL", "")
+
 
 def basic_chain():
     llm = Ollama(
