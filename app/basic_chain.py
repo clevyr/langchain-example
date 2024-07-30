@@ -2,13 +2,16 @@ from langchain_community.llms import Ollama
 from langchain_core.messages import AIMessage
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import CommaSeparatedListOutputParser
-from . import config
+from os import environ
+
+ollama_base_url: str = environ.get('OLLAMA_BASE_URL', '')
+ollama_model: str = environ.get('OLLAMA_MODEL', '')
 
 def basic_chain():
     llm = Ollama(
-        model=config.ollama_model,
+        model=ollama_model,
         temperature=0,
-        base_url=config.ollama_base_url,
+        base_url=ollama_base_url,
         # other params...
     )
 
