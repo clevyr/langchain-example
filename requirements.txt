@@ -3,3 +3,4 @@ langchain-community==0.2.10
 langchainhub==0.1.20
 python-dotenv==1.0.1
 langchain-openai==0.1.17
+langroid[all]==0.6.7
