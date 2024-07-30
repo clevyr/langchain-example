@@ -6,7 +6,7 @@ load_dotenv()
 from app import basic_chain, basic_agent, langroid_example
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     basic_chain()
     basic_agent()
     langroid_example()
