@@ -33,6 +33,7 @@ def startup():
         knowing your team strengths and delivering a product that solves the clients problems completely and thoroughly.
 
         You're job is to work with the project manager to proprose a solution for a client's needs.
+        When the client is satisfied with the solution, simply respond with "DONE"
 
         You communicate ONLY with the Client or your ProjectManager.
         Use the `recipient_tool` to address one of these.
@@ -60,6 +61,13 @@ def startup():
                 "request":"recipient_message"
             }
         ```
+        ```Example Response 3:
+            {
+                "intended_recipient":"Cient",
+                "content":"DONE",
+                "request":"recipient_message"
+            }
+        ```
         """,
     )
 
@@ -71,7 +79,8 @@ def startup():
         system_message='''You are the CLIENT for a software development company called AdvnacedTach.
         You have many needs invloving a wide range of industries.agent=
 
-        Ask the CEO of AdvancedTech to solve a particular proplem you have.
+        Ask the CEO of AdvancedTech to solve a particular proplem you have. When the CEO responds with a solution,
+        you may ask for futher details, clarification, or modifications.
 
         IMPORTANT - once you are satisfied with the CEO's solution, tell them they have you're approval to start
         development on the solution.
