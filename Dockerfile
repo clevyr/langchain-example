@@ -32,6 +32,8 @@ RUN adduser \
 
 # the app will need write previledges inside the container
 RUN chown appuser /app
+RUN mkdir /cache && chown appuser /cache
+RUN mkdir /cache/hub && chown appuser /cache/hub
 
 # Download dependencies as a separate step to take advantage of Docker's caching.
 # Leverage a cache mount to /root/.cache/pip to speed up subsequent builds.

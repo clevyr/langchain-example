@@ -29,23 +29,27 @@ def startup():
         interactive=False,
         llm_delegate=True,  # because I want to LLM to decide when the task is done instead of some special meesage
         system_message="""
-        You are the CEO of a software development company called AdvancedTech focused on understanding client needs,
-        knowing your team strengths and delivering a product that solves the clients problems completely and thoroughly.
+        You are the CEO of a software development company called AdvancedTech focused on prviding quality and custom softaware solutions
+        to complex problems for clients in any industry.
 
-        You're job is to work with the project manager to proprose a solution for a client's needs.
+        Your job is to communicate witht the client to understand their needs, work with the project manager to develop a solution,
+        and gather feedback to from the client to tailor the solution for thier needs.
         When the client is satisfied with the solution, simply respond with "DONE"
 
-        You communicate ONLY with the Client or your ProjectManager.
+        You can communicate ONLY with the Client or your ProjectManager.
         Use the `recipient_tool` to address one of these.
 
         YOU MUST ALWAYS START BY ASKING THE CLIENT WHAT THEY NEED.
-        For example
 
         DONT WRITE ANY CODE.
 
         INSTEAD SEND THE TASK TO THE PROJECT MANAGER AS IS WITH A REASONABLE DEADLINE.
 
-        IMPORTANT - Once you have client approval to start the project, simply respond with "DONE".
+        Once you have client's approval to start the project, simply respond with "DONE".
+
+        IMPORTANT
+            Your responses should be valid JSON.
+            You must include the following key-value pair in your response `"request":"recipient_message"`
 
         ```Example Response 1:
             {
@@ -72,18 +76,36 @@ def startup():
     )
 
     client_agent = lr.ChatAgent(agent_cfg)
+    client_agent.enable_message(
+        RecipientTool
+    )
     client_task = lr.Task(
         client_agent,
         name="Client",
+        llm_delegate=True,
         interactive=False,
         system_message='''You are the CLIENT for a software development company called AdvnacedTach.
-        You have many needs invloving a wide range of industries.agent=
+        You have many needs invloving a wide range of industries and problem areas.
 
         Ask the CEO of AdvancedTech to solve a particular proplem you have. When the CEO responds with a solution,
         you may ask for futher details, clarification, or modifications.
 
-        IMPORTANT - once you are satisfied with the CEO's solution, tell them they have you're approval to start
+        You may only respond to the CEO directly.
+
+        Once you are satisfied with the CEO's solution, tell them they have you're approval to start
         development on the solution.
+
+        IMPORTANT
+            Your responses should be valid JSON.
+            You must include the following key-value pair in your response `"request":"recipient_message"`
+
+        ```Example Response:
+            {
+                "intended_recipient":"CEO",
+                "content":"...",
+                "request":"recipient_message"
+            }
+        ```
         ''',
         single_round=True
 
@@ -117,6 +139,10 @@ def startup():
         As soon as you get code from the developer, address the CEO
         and show them the code.
 
+        IMPORTANT
+            Your responses should be valid JSON.
+            You must include the following key-value pair in your response `"request":"recipient_message"`
+
         ```Example Response 1:
             {
                 "intended_recipient":"Developer",
@@ -135,14 +161,34 @@ def startup():
     )
 
     dev_agent = lr.ChatAgent(agent_cfg)
-    # dev_agent.enable_message(RecipientTool)  # because it is NOT talking to more than one agent? Talking to ONLY PM
+    dev_agent.enable_message(RecipientTool)  # because it is NOT talking to more than one agent? Talking to ONLY PM
     dev_task = lr.Task(
         dev_agent,
         name="Developer",
         interactive=False,
+        llm_delegate=True,
         system_message="""
-        You are an expert python developer. Simply return code for the given task.
-        DO NOT RESPOND WITH ANYTHING OTHER THAN CODE
+        You are an expert python developer. Arcitect, plan, and provide code snipits and develop a solution
+        to the Clien's problem from the ProjectManager.
+
+        You maybe ask to povide extra details, further clarifications, or midications to a previously proposed solutions.
+
+        Think carefully and provide a thoughtful reponse.
+
+        You may only repond to the ProjectManager
+
+        IMPORTANT
+            Your responses should be valid JSON.
+            You must include the following key-value pair in your response `"request":"recipient_message"`
+
+        ```Example Response:
+            {
+                "intended_recipient":"ProjectManager",
+                "content":"...",
+                "request":"recipient_message"
+            }
+        ```
+
         """,
         single_round=True,
     )
